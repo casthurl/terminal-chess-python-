@@ -1,0 +1,45 @@
+import chess
+import chess.svg
+
+def print_board(board):
+    """
+    Function to print the current board in a terminal-friendly format
+    """
+    print(board)
+
+def is_valid_move(board, move):
+    """
+    Check if a move is valid.
+    """
+    if move in board.legal_moves:
+        return True
+    return False
+
+def play_chess():
+    board = chess.Board()  # Initialize the board
+    print("Welcome to Terminal Chess!")
+    print("Player 1 (White) vs Player 2 (Black)")
+
+    while not board.is_game_over():
+        print_board(board)  # Display the current board
+        if board.turn:
+            print("White's turn")
+        else:
+            print("Black's turn")
+        
+        move = input("Enter your move (e.g., e2e4): ").strip()
+        
+        # Convert move from the user-friendly format (e.g., e2e4) to chess.Move object
+        if len(move) == 4:
+            move = chess.Move.from_uci(move.lower())
+        
+        if is_valid_move(board, move):
+            board.push(move)
+        else:
+            print("Invalid move! Please try again.")
+    
+    print("Game Over!")
+    print(f"Result: {board.result()}")
+
+if __name__ == "__main__":
+    play_chess()
